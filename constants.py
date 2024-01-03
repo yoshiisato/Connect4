@@ -1,5 +1,3 @@
-#creating constants, like colors, dimensions, fonts, etc. 
-
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 600
 
