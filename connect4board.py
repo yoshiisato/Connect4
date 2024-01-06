@@ -43,31 +43,33 @@ class Connect4Board: #Gameboard class
     #Checks for winner using an iterative check through the whole gameboard matrix
     def check_winner(self):
         board = self.grid
-        winner = False
+        rows, cols = board.shape
+    
+        #Function to check line for a win
+        def check_line(start_row, start_col, d_row, d_col):
+            token = board[start_row, start_col]
+            if token == 0:
+                return False
+            for i in range(1, 4):
+                if board[start_row + i * d_row, start_col + i * d_col] != token:
+                    return False
+            return True
+    
+        #Check rows, columns, and diagonals
+        for row in range(rows):
+            for col in range(cols):
+                if col <= cols - 4 and check_line(row, col, 0, 1):
+                    return True
+                if row <= rows - 4:
+                    if check_line(row, col, 1, 0):
+                        return True
+                    if col <= cols - 4 and check_line(row, col, 1, 1):
+                        return True
+                    if col >= 3 and check_line(row, col, 1, -1):
+                        return True
+    
+        return False
 
-        rows = 6
-        cols = 7
-        for row in range(rows): #Checks horizontals
-            for col in range(cols - 3):
-                if board[row, col] == board[row, col + 1] == board[row, col + 2] == board[row, col + 3] != 0:
-                    winner = True
-
-        for col in range(cols): #Checks verticals 
-            for row in range(rows - 3):
-                if board[row, col] == board[row + 1, col] == board[row + 2, col] == board[row + 3, col] != 0:
-                    winner = True
-
-        for row in range(rows - 3): #Checks diagonal descending
-            for col in range(cols - 3):
-                if board[row, col] == board[row + 1, col + 1] == board[row + 2, col + 2] == board[row + 3, col + 3] != 0:
-                    winner = True
-
-        for row in range(3, rows): #Checks diagonal ascending
-            for col in range(cols - 3):
-                if board[row, col] == board[row - 1, col + 1] == board[row - 2, col + 2] == board[row - 3, col + 3] != 0:
-                    winner = True
-
-        return winner #Returns boolean variable true when winner is found
 
     #Function to reset the object variables in case of new game
     def reset_board(self):
