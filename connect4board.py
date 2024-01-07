@@ -70,6 +70,34 @@ class Connect4Board: #Gameboard class
     
         return False
 
+    #For comparison of a straightforward brute-force approach, to the previous slightly optimized search algo
+    def check_winner_v2(self):
+        board = self.grid
+        winner = False
+
+        rows = 6
+        cols = 7
+        for row in range(rows): #Checks horizontals
+            for col in range(cols - 3):
+                if board[row, col] == board[row, col + 1] == board[row, col + 2] == board[row, col + 3] != 0:
+                    winner = True
+
+        for col in range(cols): #Checks verticals 
+            for row in range(rows - 3):
+                if board[row, col] == board[row + 1, col] == board[row + 2, col] == board[row + 3, col] != 0:
+                    winner = True
+
+        for row in range(rows - 3): #Checks diagonal descending
+            for col in range(cols - 3):
+                if board[row, col] == board[row + 1, col + 1] == board[row + 2, col + 2] == board[row + 3, col + 3] != 0:
+                    winner = True
+
+        for row in range(3, rows): #Checks diagonal ascending
+            for col in range(cols - 3):
+                if board[row, col] == board[row - 1, col + 1] == board[row - 2, col + 2] == board[row - 3, col + 3] != 0:
+                    winner = True
+
+        return winner #Returns boolean variable true when winner is found
 
     #Function to reset the object variables in case of new game
     def reset_board(self):
